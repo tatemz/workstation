@@ -1,17 +1,6 @@
 - include_role:
     name: geerlingguy.git
 
-- name: Global Git Config
-  git_config:
-    name: '{{item.name}}'
-    scope: global
-    value: '{{item.value}}'
-  loop:
-    - name: user.email
-      value: '{{workstation_user.email}}'
-    - name: user.name
-      value: '{{workstation_user.name}}'
-
 - include_role:
     name: gantsign.oh-my-zsh
   vars:
