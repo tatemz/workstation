@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+  vars_files:
+    - ./vars/vault.yml
+  vars:
+    workstation_user:
+      username: tatemz
+      email: tate.barber@gmail.com
+      name: A. Tate Barber
+      password: '{{vault.workstation_user.password}}'
+    github:
+      access_token: '{{vault.github.access_token}}'
+  remote_user: '{{workstation_user.username}}'
+  roles:
+    - cmd
+    - apps
+    - config

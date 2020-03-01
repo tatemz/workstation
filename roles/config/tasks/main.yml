@@ -1,0 +1,21 @@
+- name: 'Configure {{workstation_user.username}}'
+  become: yes
+  user:
+    name: '{{workstation_user.username}}'
+    password: '{{workstation_user.password}}'
+    update_password: always
+    generate_ssh_key: yes
+    ssh_key_comment: '{{workstation_user.email}}'
+    shell: /bin/zsh
+    state: present
+
+- name: Read SSH public key to authorize
+  shell: cat ~/.ssh/id_rsa.pub
+  register: ssh_pub_key
+
+- name: Authorize key with GitHub
+  local_action:
+    module: github_key
+    name: '{{ansible_hostname}}'
+    token: '{{github.access_token}}'
+    pubkey: '{{ssh_pub_key.stdout}}'
